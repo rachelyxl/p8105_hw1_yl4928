@@ -4,27 +4,80 @@ author: "Rachel"
 date: "9/27/2021"
 output: github_document
 ---
+I'm an R Markdown document! 
+
+## Problem 1
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(tibble)
 ```
 
-## R Markdown
+a random sample of size 10 from a standard Normal distribution
+a logical vector indicating whether elements of the sample are greater than 0
+a character vector of length 10
+a factor vector of length 10, with 3 different factor “levels”
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r}
+set.seed(123)
+la_df = tibble(
+  norm_samp = rnorm(10),
+  vec_logical = c(TRUE, TRUE, TRUE, TRUE, TRUE, FALSE, FALSE, FALSE, FALSE,FALSE),
+  vec_char = c("a","b","c","d","e","f","g","h","i","j"),
+  vec_factor = factor(c("abc","abc","abc","abc","hij","hij","hij","efg","efg","efg"))
+)
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+samp1 = pull(la_df, norm_samp)
+samp2 = pull(la_df, vec_logical)
+samp3 = pull(la_df, vec_char)
+samp4 = pull(la_df, vec_factor)
 
-```{r cars}
-summary(cars)
+as.numeric(samp1)
+as.numeric(samp2)
+as.numeric(samp3)
+as.numeric(samp4)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+Try to take the mean of each variable in your dataframe
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+The mean of the variable norm_samp is `r mean(samp1)`. The mean of the variable vec_logical is `r mean(samp2)`. The mean of the variable vec_char is `r mean(samp3)`. The mean of the variable vec_factor is `r mean(samp4)`. 
+
+Try to take the mean of each variable in your dataframe. What works and what doesn’t?
+  The mean of variable vec_char doesn't work. The mean of the variable vec_factor doesn't work. 
+
+Write a code chunk that applies the as.numeric function to the logical, character, and factor variables. 
+  By using the as.numeric function, only the the vector character doesn't work. Although, when taking the mean of each variable, both the vector character and the vector factor can not get the mean. 
+
+
+## Problem 2
+
+download the a package containing the penguins dataset and  to load the penguins dataset
+
+```{r}
+data("penguins", package = "palmerpenguins")
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+description of the penguins dataset
+the data in this dataset, including names/values of important variables. 
+
+The name of the penguins dataset are `r names(penguins)`.
+The size of the dataset is `r nrow(penguins)` rows and `r ncol(penguins)` columns.
+The mean flipper length is `r mean(pull(penguins, flipper_length_mm), na.rm = TRUE)`.  
+
+Make a scatterplot
+
+```{r}
+ggplot(penguins, aes(x = bill_length_mm, y = flipper_length_mm, color = species)) + geom_point()
+ggsave("penguins.png")
+```
+
+
+
+
+
+
+
+
+
